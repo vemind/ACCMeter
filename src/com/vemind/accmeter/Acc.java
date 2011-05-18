@@ -16,7 +16,8 @@ import android.widget.TextView;
 public class Acc extends Activity {
     private static final int STATISTIC_ID = Menu.FIRST;
 	private static final int SETTINGS_ID = STATISTIC_ID + 1;
-	private static final int EXIT_ID = SETTINGS_ID + 1;
+	private static final int LOGGING_ID = SETTINGS_ID + 1;
+	private static final int EXIT_ID = LOGGING_ID + 1;
 	private LocationManager locMan;
 	private LocationListener locLis;
 	private SpeedProcessor mySpeed;
@@ -85,19 +86,21 @@ public class Acc extends Activity {
         } 
 	    @Override 
 	    public void onStatusChanged(String provider, int status, Bundle extras) {
-	    	// TODO Auto-generated method stub
+
 	    	if ((status == LocationProvider.OUT_OF_SERVICE) || (status == LocationProvider.TEMPORARILY_UNAVAILABLE))
 	    		displaySpeed (false);
         } 
     }
 	
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+    	menu.clear();
         menu.add(0, STATISTIC_ID, 0, R.string.statistics);
         menu.add(0, SETTINGS_ID, 0, R.string.settings);
+        menu.add(0, LOGGING_ID, 0, (mySpeed.isLogging() ? R.string.dont_save_logs : R.string.save_logs));
         menu.add(0, EXIT_ID, 0, R.string.exit);
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -109,6 +112,9 @@ public class Acc extends Activity {
             case SETTINGS_ID:
             	showSettings();
             	return true;
+            case LOGGING_ID:
+            	changeLogging();
+            	return true;
             case EXIT_ID:
             	this.finish();
                 return true;
@@ -116,6 +122,10 @@ public class Acc extends Activity {
 
         return super.onMenuItemSelected(featureId, item);
     }
+
+	private void changeLogging() {
+		mySpeed.saveLogs(!mySpeed.isLogging());
+	}
 
 	private void showSettings() {
 		// TODO Auto-generated method stub

@@ -24,7 +24,7 @@ public class SpeedProcessor implements Parcelable {
 	
 	private float currentSpeed;
 	private boolean hasSpeed;
-	private boolean isLogging;
+	private boolean loggingState;
 	
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -38,14 +38,14 @@ public class SpeedProcessor implements Parcelable {
 		mCtx = ctx;
 		currentSpeed = 0.0f;
 		hasSpeed = false;
-		isLogging = true;
+		loggingState = true;
 		speedStat = new SpeedStatistic();
 	}
 	
 	public Float addSpeedValue(float newSpeed) {
 		if (Math.abs(newSpeed - currentSpeed) < 50 || !hasSpeed) { //filter all the difference more than 50 m/s
 			currentSpeed = newSpeed;
-			logData (currentSpeed);
+			if (loggingState) logData (currentSpeed);
 		}
 		hasSpeed = true;
 		return currentSpeed;
@@ -58,10 +58,8 @@ public class SpeedProcessor implements Parcelable {
 	}
 	
 	public void logData(float speedValue) {
-		if (isLogging) {
 			int tempSpeed = (int) (speedValue * 10); // Speed values stored in DB in m/s * 10
 			addLogValue (System.currentTimeMillis(), tempSpeed);
-		}
 	}
 	
     private static class DatabaseHelper extends SQLiteOpenHelper {
@@ -161,7 +159,6 @@ public class SpeedProcessor implements Parcelable {
     };
 		
 	private SpeedProcessor (Parcel in) {
-		mCtx = null;
         mData = in.readInt();
         speedStat = new SpeedStatistic();
     }
@@ -169,5 +166,13 @@ public class SpeedProcessor implements Parcelable {
 	public SpeedStatistic getStats () { // TODO refactoring needed
 		speedStat.recalculate(getAllLogs());
 		return speedStat;
+	}
+	
+	public void saveLogs (boolean saveLog) {
+		loggingState = saveLog;
+	}
+	
+	public boolean isLogging () {
+		return loggingState;
 	}
 }
