@@ -38,7 +38,7 @@ public class Acc extends Activity {
         
         locMan = (LocationManager) getSystemService (Context.LOCATION_SERVICE); 
         locLis = new SpeedoActionListener();
-        mySpeed = new SpeedProcessor(this);
+        mySpeed = SpeedProcessor.getInstance();
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Acc");

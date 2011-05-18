@@ -11,6 +11,8 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class SpeedProcessor implements Parcelable {
+	private static SpeedProcessor instance;
+	
 	public static final String NAME = "SpeedProcessor";
 	public static final String DATABASE_NAME = "speed_processor";
 	public static final int DATABASE_VERSION = 1;
@@ -34,12 +36,18 @@ public class SpeedProcessor implements Parcelable {
     private SpeedStatistic speedStat;
 	private int mData;
 	
-	public SpeedProcessor(Context ctx) {
-		mCtx = ctx;
+	private SpeedProcessor() {
 		currentSpeed = 0.0f;
 		hasSpeed = false;
 		loggingState = true;
 		speedStat = new SpeedStatistic();
+	}
+	
+	public static synchronized SpeedProcessor getInstance() {
+		if (instance == null) {
+			instance = new SpeedProcessor();
+		}
+		return instance;
 	}
 	
 	public Float addSpeedValue(float newSpeed) {
