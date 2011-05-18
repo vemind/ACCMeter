@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:background="#444444">
+		<TextView  
+			android:id="@+id/text_max_speed"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:text="@string/max_speed"
+		    android:textColor="#EEEEEE"
+		    android:textStyle="bold"
+		    android:textSize="16sp"
+		    />
+	    <TextView
+	    	android:id="@+id/value_max_speed"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="200"
+	    	android:gravity="right"
+		    android:textColor="#FFFFFF"
+		    android:textStyle="bold"
+		    android:textSize="20sp"
+	    	/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#000000">
+		<TextView  
+			android:id="@+id/text_max_acc0"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:text="@string/max_acc0"
+		    android:textStyle="bold"
+		    android:textSize="16sp"
+		    />
+	    <TextView
+	    	android:id="@+id/value_max_acc0"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="200"
+	    	android:gravity="right"
+		    android:textColor="#EEEEEE"
+		    android:textStyle="bold"
+		    android:textSize="20sp"
+	    	/>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#444444">
+		<TextView  
+			android:id="@+id/text_max_acc40"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:text="@string/max_acc40"
+		    android:textColor="#EEEEEE"
+		    android:textStyle="bold"
+		    android:textSize="16sp"
+		    />
+	    <TextView
+	    	android:id="@+id/value_max_acc40"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:text="200"
+	    	android:gravity="right"
+		    android:textColor="#FFFFFF"
+		    android:textStyle="bold"
+		    android:textSize="20sp"
+	    	/>
+    </LinearLayout>
+    
+    <TextView android:id="@+id/text_system_info"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	/>
+</LinearLayout>

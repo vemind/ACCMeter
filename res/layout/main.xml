@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    >
+		<TextView  
+			android:id="@+id/text_speed"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:text="@string/no_speed"
+		    android:textSize="72sp"
+		    android:textColor="#55FF55"
+		    android:textStyle="bold"
+		    android:gravity="center"
+		    />
+	    <TextView
+	    	android:id="@+id/speed_units"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:text="@string/speed_units"
+	    	android:textSize="36sp"
+	    	android:textColor="#5555FF"
+	    	android:textStyle="bold"
+	    	android:visibility="gone"
+	    	android:gravity="center"
+	    	/>
+    </LinearLayout>
+</LinearLayout>
