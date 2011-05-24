@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_speed">Нет скорости</string>
+    <string name="app_name">ACCMeter</string>
+    <string name="speed_units"> км/ч</string>
+    <string name="statistics">Статистика</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выход</string>
+    <string name="logs">Логи</string>
+    <string name="log_data">Логгировать значения скорости</string>
+    <string name="save_logs">Сохранять логи</string>
+    <string name="dont_save_logs">Не сохранять логи</string>
+    <string name="clear_log">Удалить все логи</string>
+    <string name="max_speed">Макс. скорость</string>
+    <string name="max_acc0">Макс. ускорение с 0 до 100 км/ч</string>
+    <string name="max_acc40">Макс. ускорение с 40 до 100 км/ч</string>
+</resources>

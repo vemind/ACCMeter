@@ -56,8 +56,8 @@ public class GForceSensor implements SensorEventListener {
         
         float finRes = Math.max(Math.max(linearAcc[0], linearAcc[1]), linearAcc[2]) * 100; //getting max G value
         
-        finRes = ((float)Math.round(finRes))/100; // round to 2 digits
+        finRes = Math.abs(((float)Math.round(finRes))/100) + 1f; // round to 2 digits and getting absolute value
         
-        if (bindedTV != null) bindedTV.setText(((Float)finRes).toString());
+        if (bindedTV != null) bindedTV.setText(((Float)finRes).toString()); // 1 - normal g-force
 	}
 }
