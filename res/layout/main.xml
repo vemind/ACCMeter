@@ -6,7 +6,8 @@
     >
     <LinearLayout android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
     android:gravity="center"
     >
 		<TextView  
@@ -31,4 +32,9 @@
 	    	android:gravity="center"
 	    	/>
     </LinearLayout>
+    <TextView
+    	android:id="@+id/gforce_text"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:textSize="24sp"/>
 </LinearLayout>

@@ -3,12 +3,15 @@ package com.vemind.accmeter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -23,7 +26,9 @@ public class Acc extends Activity {
 	private SpeedProcessor mySpeed;
 	private TextView speedText;
 	private TextView speedUnits;
+	private TextView gForceText;
 	private PowerManager.WakeLock wLock;
+	private GForceSensor gSensor;
 	
 
 
@@ -35,6 +40,7 @@ public class Acc extends Activity {
         
         speedText = (TextView) findViewById (R.id.text_speed);
         speedUnits = (TextView) findViewById (R.id.speed_units);
+        gForceText = (TextView) findViewById (R.id.gforce_text);
         
         locMan = (LocationManager) getSystemService (Context.LOCATION_SERVICE); 
         locLis = new SpeedoActionListener();
@@ -42,11 +48,13 @@ public class Acc extends Activity {
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Acc");
+        gSensor = new GForceSensor((SensorManager)getSystemService(SENSOR_SERVICE));
     }
     
     @Override
     public void onPause() {
     	super.onPause();
+    	gSensor.unregListener();
     	locMan.removeUpdates(locLis);
     	mySpeed.close();
     	wLock.release();
@@ -55,12 +63,22 @@ public class Acc extends Activity {
     @Override
     public void onResume() {
     	super.onResume();
+    	gSensor.regListener();
+    	gSensor.bindTextView(gForceText);
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locLis);
         mySpeed.open(this);
         wLock.acquire();
+        readPreferences();
     }
     
-    @Override
+    private void readPreferences() {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+    	mySpeed.saveLogs(prefs.getBoolean("logspeed", true));
+		
+	}
+
+	@Override
     public void onStop(){
     	super.onStop();
     }
@@ -124,12 +142,12 @@ public class Acc extends Activity {
     }
 
 	private void changeLogging() {
-		mySpeed.saveLogs(!mySpeed.isLogging());
+//		mySpeed.saveLogs(!mySpeed.isLogging());
 	}
 
 	private void showSettings() {
-		// TODO Auto-generated method stub
-				
+		Intent i = new Intent(this, AccPreference.class);
+        startActivity(i);		
 	}
 
 	private void showStatistics() {
