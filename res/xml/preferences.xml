@@ -12,7 +12,7 @@
                 android:title="Service settings">
                 <CheckBoxPreference
                         android:title="@string/run_bg"
-                        android:defaultValue="true"
+                        android:defaultValue="false"
                         android:summary="Run service when application is off"
                         android:key="run_service" />
         </PreferenceCategory>
