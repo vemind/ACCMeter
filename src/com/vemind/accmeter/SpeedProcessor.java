@@ -171,7 +171,7 @@ public class SpeedProcessor implements Parcelable {
         speedStat = new SpeedStatistic();
     }
 	
-	public SpeedStatistic getStats () { // TODO refactoring needed
+	public SpeedStatistic getStats () { 
 		speedStat.recalculate(getAllLogs());
 		return speedStat;
 	}
@@ -182,5 +182,13 @@ public class SpeedProcessor implements Parcelable {
 	
 	public boolean isLogging () {
 		return loggingState;
+	}
+	
+	public void setStatus (boolean newState) {
+		hasSpeed = newState;
+	}
+	
+	public boolean getStatus() {
+		return hasSpeed;
 	}
 }

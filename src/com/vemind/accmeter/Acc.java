@@ -30,6 +30,8 @@ public class Acc extends Activity {
 	private PowerManager.WakeLock wLock;
 	private GForceSensor gSensor;
 	
+	private boolean serviceStarted;
+	
 
 
 	/** Called when the activity is first created. */
@@ -63,18 +65,20 @@ public class Acc extends Activity {
     @Override
     public void onResume() {
     	super.onResume();
+        readPreferences();
     	gSensor.regListener();
     	gSensor.bindTextView(gForceText);
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locLis);
         mySpeed.open(this);
         wLock.acquire();
-        readPreferences();
+        processBGService(); 
     }
     
     private void readPreferences() {
     	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-    	mySpeed.saveLogs(prefs.getBoolean("logspeed", true));
+    	mySpeed.saveLogs(prefs.getBoolean("log_speed", true));
+    	serviceStarted = prefs.getBoolean("run_service", true);
 	}
 
 	@Override
@@ -86,8 +90,8 @@ public class Acc extends Activity {
         @Override 
         public void onLocationChanged(Location location) { 
         	if(location!=null) { 
-	            if(location.hasSpeed()){ 
-	            	mySpeed.addSpeedValue (location.getSpeed());
+	            if(location.hasSpeed()){
+	            	if (!serviceStarted) mySpeed.addSpeedValue (location.getSpeed());
 	            	displaySpeed (true);
 	            }
             }
@@ -115,7 +119,7 @@ public class Acc extends Activity {
         menu.add(0, STATISTIC_ID, 0, R.string.statistics);
         menu.add(0, SETTINGS_ID, 0, R.string.settings);
         menu.add(0, EXIT_ID, 0, R.string.exit);
-        menu.add(0, RUN_BG_ID, 0, R.string.run_bg);
+        menu.add(0, RUN_BG_ID, 0, serviceStarted ? R.string.stop_bg : R.string.run_bg);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -132,16 +136,31 @@ public class Acc extends Activity {
             	this.finish();
                 return true;
             case RUN_BG_ID:
-            	runInBackground();
+            	processBGService();
                 return true;
             }
 
         return super.onMenuItemSelected(featureId, item);
     }
 
-	private void runInBackground() {
-		// TODO Auto-generated method stub
-		
+	private void processBGService() {
+		if (serviceStarted) stopBGProcess();
+		else startBGProcess();
+	}
+
+	private void startBGProcess() {
+		Intent i = new Intent (this, SpeedService.class);
+		i.putExtra(SpeedProcessor.NAME, mySpeed);
+		serviceStarted = true;
+		startService(i);
+		locMan.removeUpdates(locLis);
+	}
+	
+	private void stopBGProcess() {
+		Intent i = new Intent (this, SpeedService.class);
+		serviceStarted = false;
+		stopService(i);
+		locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locLis);
 	}
 
 	private void showSettings() {

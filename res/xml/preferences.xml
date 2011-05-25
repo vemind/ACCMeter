@@ -6,6 +6,14 @@
                         android:title="@string/log_data"
                         android:defaultValue="true"
                         android:summary="Switch logging on/off"
-                        android:key="logspeed" />
+                        android:key="log_speed" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="Service settings">
+                <CheckBoxPreference
+                        android:title="@string/run_bg"
+                        android:defaultValue="true"
+                        android:summary="Run service when application is off"
+                        android:key="run_service" />
         </PreferenceCategory>
 </PreferenceScreen>

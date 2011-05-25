@@ -19,6 +19,8 @@
         		android:name=".AccPreference"
 		        android:label="@string/settings">
 		</activity>
+		<service android:name=".SpeedService">
+		</service>
 
     </application>
 
