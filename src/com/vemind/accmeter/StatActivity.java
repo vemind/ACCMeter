@@ -15,6 +15,7 @@ public class StatActivity extends Activity {
 	
 	//Value TextViews
 	private TextView maxSpeedTV;
+	private TextView dMaxSpeedTV;
 	private TextView maxAcc0TV;
 	private TextView maxAcc40TV;
 	private TextView systemInfoTV;
@@ -25,6 +26,7 @@ public class StatActivity extends Activity {
 		setContentView (R.layout.statistics);
 		
 		maxSpeedTV = (TextView) findViewById (R.id.value_max_speed);
+		dMaxSpeedTV = (TextView) findViewById (R.id.value_dmax_speed);
 		maxAcc0TV = (TextView) findViewById (R.id.value_max_acc0);
 		maxAcc40TV = (TextView) findViewById (R.id.value_max_acc40);
 		systemInfoTV = (TextView) findViewById (R.id.text_system_info);
@@ -72,6 +74,7 @@ public class StatActivity extends Activity {
 		mySpeed.open(this);
 		SpeedStatistic speedStat = mySpeed.getStats();
 		maxSpeedTV.setText (speedStat.getMaxKmh().toString() + " km/h");
+		dMaxSpeedTV.setText (speedStat.getDailyMaxKmh().toString() + " km/h");
 		maxAcc0TV.setText (speedStat.getFastest0Sec().toString() + " s");
 		maxAcc40TV.setText (speedStat.getFastest40Sec().toString() + " s");
 		systemInfoTV.setText ("System info \nOverall entries: " + speedStat.totalCounts.toString());

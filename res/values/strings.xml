@@ -14,6 +14,7 @@
     <string name="dont_save_logs">Don\'t save logs</string>
     <string name="clear_log">Clear statistics</string>
     <string name="max_speed">Max speed</string>
+    <string name="dmax_speed">Daily max speed</string>
     <string name="max_acc0">Fastest acc time 0-100 Km/h</string>
     <string name="max_acc40">Fastest acc time 40-100 Km/h</string>
 </resources>

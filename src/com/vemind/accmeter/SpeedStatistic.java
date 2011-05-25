@@ -25,6 +25,7 @@ public class SpeedStatistic {
 		totalCounts = data.getCount();
 		if (totalCounts > 0) {
 			maxSpeed = getMaxSpeed (data);
+			dMaxSpeed = getDailyMaxSpeed (data);
 			fastestAcc0 = getFastestAcc0 (data);
 			fastestAcc40 = getFastestAcc40 (data);
 		}
@@ -85,9 +86,30 @@ public class SpeedStatistic {
 		}
 		return tempMax;
 	}
+	
+	private Integer getDailyMaxSpeed(Cursor data) {
+		int valueColumn = data.getColumnIndex(SpeedProcessor.KEY_VALUE);
+		int dateColumn = data.getColumnIndex(SpeedProcessor.KEY_DATE);
+		int tempMax = 0;
+		int currSpeed = 0;
+		long targetDate = System.currentTimeMillis() - 8640000;
+
+		for (data.moveToFirst(); !data.isLast(); data.moveToNext()) { //daily max, need to reengineer with cursor
+			if (data.getLong(dateColumn) > targetDate) {
+				currSpeed = data.getInt(valueColumn);
+				tempMax = (tempMax > currSpeed) ? tempMax : currSpeed;
+			}
+		}
+		return tempMax;
+	}
 
 	public Float getMaxKmh() {
 		float retSpeed = (float) (maxSpeed * 36); // one digit precision TODO remove all hardcode
+		return retSpeed/100;
+	}
+	
+	public Float getDailyMaxKmh() {
+		float retSpeed = (float) (dMaxSpeed * 36); // one digit precision TODO remove all hardcode
 		return retSpeed/100;
 	}
 	
