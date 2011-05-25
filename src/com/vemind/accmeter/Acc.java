@@ -20,6 +20,7 @@ public class Acc extends Activity {
     private static final int STATISTIC_ID = Menu.FIRST;
 	private static final int SETTINGS_ID = STATISTIC_ID + 1;
 	private static final int EXIT_ID = SETTINGS_ID + 1;
+	private static final int RUN_BG_ID = EXIT_ID + 1;
 	private LocationManager locMan;
 	private LocationListener locLis;
 	private SpeedProcessor mySpeed;
@@ -110,11 +111,11 @@ public class Acc extends Activity {
 	
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
     	menu.clear();
         menu.add(0, STATISTIC_ID, 0, R.string.statistics);
         menu.add(0, SETTINGS_ID, 0, R.string.settings);
         menu.add(0, EXIT_ID, 0, R.string.exit);
+        menu.add(0, RUN_BG_ID, 0, R.string.run_bg);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -130,10 +131,18 @@ public class Acc extends Activity {
             case EXIT_ID:
             	this.finish();
                 return true;
-        }
+            case RUN_BG_ID:
+            	runInBackground();
+                return true;
+            }
 
         return super.onMenuItemSelected(featureId, item);
     }
+
+	private void runInBackground() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void showSettings() {
 		Intent i = new Intent(this, AccPreference.class);
