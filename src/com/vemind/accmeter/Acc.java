@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,7 +13,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class Acc extends Activity {
     private static final int STATISTIC_ID = Menu.FIRST;
@@ -24,11 +22,12 @@ public class Acc extends Activity {
 	private LocationManager locMan;
 	private LocationListener locLis;
 	private SpeedProcessor mySpeed;
-	private TextView speedText;
-	private TextView speedUnits;
-	private TextView gForceText;
+//	private TextView speedText;
+//	private TextView speedUnits;
+//	private TextView gForceText;
 	private PowerManager.WakeLock wLock;
-	private GForceSensor gSensor;
+//	private GForceSensor gSensor;
+	private SpeedCanvas smCanvas;
 	
 	private boolean serviceStarted;
 	
@@ -40,9 +39,10 @@ public class Acc extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        speedText = (TextView) findViewById (R.id.text_speed);
-        speedUnits = (TextView) findViewById (R.id.speed_units);
-        gForceText = (TextView) findViewById (R.id.gforce_text);
+ //       speedText = (TextView) findViewById (R.id.text_speed);
+ //       speedUnits = (TextView) findViewById (R.id.speed_units);
+ //       gForceText = (TextView) findViewById (R.id.gforce_text);
+        smCanvas = (SpeedCanvas) findViewById (R.id.speed_surface);
         
         locMan = (LocationManager) getSystemService (Context.LOCATION_SERVICE); 
         locLis = new SpeedoActionListener();
@@ -50,13 +50,13 @@ public class Acc extends Activity {
         
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "Acc");
-        gSensor = new GForceSensor((SensorManager)getSystemService(SENSOR_SERVICE));
+//        gSensor = new GForceSensor((SensorManager)getSystemService(SENSOR_SERVICE));
     }
     
     @Override
     public void onPause() {
     	super.onPause();
-    	gSensor.unregListener();
+//    	gSensor.unregListener();
     	locMan.removeUpdates(locLis);
     	mySpeed.close();
     	wLock.release();
@@ -66,12 +66,13 @@ public class Acc extends Activity {
     public void onResume() {
     	super.onResume();
         readPreferences();
-    	gSensor.regListener();
-    	gSensor.bindTextView(gForceText);
+//    	gSensor.regListener();
+//    	gSensor.bindTextView(gForceText);
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locLis);
         mySpeed.open(this);
         wLock.acquire();
-        processBGService(); 
+        processBGService();
+        displaySpeed(true);
     }
     
     private void readPreferences() {
@@ -175,12 +176,9 @@ public class Acc extends Activity {
 	}
 
 	public void displaySpeed(boolean display) {
-		if (display) {
-			speedText.setText(mySpeed.getSpeed().toString());
-			speedUnits.setVisibility(TextView.VISIBLE);
-		} else {
-			speedText.setText(R.string.no_speed);
-			speedUnits.setVisibility(TextView.GONE);
+		if (smCanvas != null) {
+			smCanvas = (SpeedCanvas)findViewById(R.id.speed_surface);
+			smCanvas.drawSpeed(mySpeed.getSpeed());
 		}
 	}
 }
